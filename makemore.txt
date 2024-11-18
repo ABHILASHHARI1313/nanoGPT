@@ -1,0 +1,41 @@
+This is the documentation for the Bigram by Andrej Karpathy in my words.
+
+The Bigram discussed here is a character level language model. 
+The bigram follows the Markov's assumption which states that the future state of a process 
+depends only on its current state and not the sequence of events that preceded it. 
+In other words given the current state, the future state is independent of the past states.
+
+
+1. Read the file which contain the dataset, where each line represents a data(a name) to variable named words.
+2. For each word in words add a starting character('<S>') and a ending character('<E>').  
+3. Make pair of characters from the word and find frequency of occurence of each pair.
+4. Repeat it for all words.
+5. Sort the pairs based on the frequency of occurence of each pair in descending order.
+
+Visualizing the pairs and it frequency count on a figure.
+6. Importing torch and creating a tensor "N" of size (27,27).
+7. From the words create a list of all unique characters.
+8. Create 2 dictionaries stoi(a dictionary mapping characters to indices) and itos(a dictionary mapping indices to characters).
+9. For each word in words replace the starting symbol ('<S>') and ending symbol('<E>') with dot symbol'.'.
+10. Zip the words such that a pair is formed which contains a preceding and a succeeding character of the word till the end of the word.
+(zip is am built in method in python that wraps the corresponding elements of two list to a tuple in each iteration till the limit of any list is reached.)
+11. For each zipped pair convert the pair to integers using stoi dictionary and unpack the values to variables ix1 and ix2. Use the ix1 and ix2 as indices and increment the value corresponding to the indices in the tensor "N".
+12. Repeat it for all words.
+
+Generating visualization figure
+13. Use the tensor "N" to create a figure that represents the pair and frequency counts.
+
+Finding probability distribution
+14. We are then taking the first row of the tensor "N" and converting it to float.
+15. Then the row is normalized.
+16. After that we use the torch.Generator to set the seeds for generating random values.(The basic idea is to generate the same random values for everyone using the same seed.)
+17. The generator object g is passed to the multinomial function.The multinomial function returns a tensor where each row contains num_samples indices sampled from the multinomia probability distribution.
+18. If the number of samples is 1, it specifies that we want just one sample from returned tensor.
+19. torch.multinomial randomly selects an index based on the provided probability distribution p. The distribution p defines the likelihood of each index being selected:
+
+Higher probabilities in p mean that those indices are more likely to be chosen.
+Lower probabilities reduce the chance of an index being selected.
+
+20. We now need to consider all the "N" tensor values. For that convert all the values to float and find the sum row wise.
+21. Normalize the values.
+22. Use the probability distribution to predict the next sequential character following each character till end character with least probability value is reached.
