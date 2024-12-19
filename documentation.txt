@@ -1,0 +1,19 @@
+19/12/2024
+Why pruning in pytorch won't increase inference performance or reduce model size ?  
+
+Unfortunately, model pruning in PyTorch does not currently improve model inference times.
+
+This unfortunate fact stems from the fact that model pruning does not improve inference performance or reduce model size if it is used with dense tensors. 
+A dense tensor filled with zeroes is not any faster to compute, nor is it any smaller when written to disk. 
+In order for that to happen, it needs to be converted to a sparse tensor.
+
+This would be fine if PyTorch had robust support for sparse tensors, but unfortunately this is not the case—sparse tensors are currently extremely limited in what they can do. 
+As a result, in one forum thread from earlier this year a PyTorch core dev observes that “The point of PyTorch pruning, at the moment, is not necessarily to guarantee inference time speedups or memory savings. 
+It’s more of an experimental feature to enable pruning research.”
+
+This is not a PyTorch-specific problem, as TensorFlow support is in a similar state. 
+Both frameworks have this feature “on their roadmap”, so I’m hopeful that model pruning inference performance improvements will arrive eventually. 
+
+What is learning rate warmup in machine learning?
+It is a strategy where the learning rate starts at a low value and gradually increases to the desired maximum learning rate during the initial phase of the training.
+
